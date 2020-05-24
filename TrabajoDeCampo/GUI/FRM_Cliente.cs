@@ -14,29 +14,24 @@ namespace GUI
 {
     public partial class FRM_Cliente : Form
     {
-        private ClienteBE cliente = new ClienteBE();
         private UsuarioBE usuario = new UsuarioBE();
-        private ClienteBLL gestorCliente = new ClienteBLL();
         
         public FRM_Cliente(UsuarioBE usuarioAutenticado)
         {
             InitializeComponent();
             //obtengo la especialización del cliente:
             usuario = usuarioAutenticado;
-            cliente.Cod_Usuario = usuarioAutenticado.Cod_Usuario;
-            cliente = gestorCliente.ObtenerCliente(cliente);
-            gestorCliente.ObtenerCliente(cliente);
         }
 
         private void FRM_Cliente_Load(object sender, EventArgs e)
         {
-            lblHolaCliente.Text = "Hola " + cliente.ToString();
+            lblHolaCliente.Text = "Hola " + usuario.ToString();
 
-            if (cliente.TipoCliente == "PREMIUM")
+            if (usuario.TipoUsuario == "Cliente PREMIUM")
             {
                 btnReservar.Visible = true;
             }
-            else if (cliente.TipoCliente == "STANDARD")
+            else if (usuario.TipoUsuario == "Cliente STANDARD")
             {
                 btnReservar.Visible = false;
             }
