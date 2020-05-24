@@ -45,6 +45,7 @@ namespace GUI
 
                 if (usuarioAutenticado != null)
                 {
+                    SesionSL.Instance.Login(usuarioAutenticado);
                     BitacoraBE bitacoraBE = new BitacoraBE();
                     bitacoraBE.Cod_Usuario = usuarioAutenticado.Cod_Usuario;
                     bitacoraBE.Cod_Evento = (short)EventosBE.Eventos.Login;
