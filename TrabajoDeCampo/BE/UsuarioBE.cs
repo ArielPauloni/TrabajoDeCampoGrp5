@@ -40,25 +40,26 @@ namespace BE
             set { contraseña = value; }
         }
 
-        private short cod_tipo;
+        private TipoUsuarioBE tipoUsuario;
 
-        public short Cod_Tipo
-        {
-            get { return cod_tipo; }
-            set { cod_tipo = value; }
-        }
-
-        private string tipoUsuario;
-
-        public string TipoUsuario
+        public TipoUsuarioBE TipoUsuario
         {
             get { return tipoUsuario; }
             set { tipoUsuario = value; }
         }
 
+        private  List<PermisoBE> permisos;
+
+        public List<PermisoBE> Permisos
+        {
+            get { return permisos; }
+            set { permisos = value; }
+        }
+
         public override string ToString()
         {
-            return Nombre + " (" + Mail + ")" + "<" + TipoUsuario + ">";
+            return Nombre + " (" + Mail + ")" + "<" + TipoUsuario.ToString() + ">";
         }
+
     }
 }

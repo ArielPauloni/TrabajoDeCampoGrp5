@@ -20,13 +20,5 @@ namespace BE
             get { return descripcionEvento; }
             set { descripcionEvento = value; }
         }
-
-        private int cantidad;
-        public int Cantidad
-        {
-            get { return cantidad; }
-            set { cantidad = value; }
-        }
-
     }
 }

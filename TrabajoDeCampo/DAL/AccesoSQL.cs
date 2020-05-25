@@ -42,7 +42,7 @@ namespace DAL
                 {
                     ret = myCommand.ExecuteNonQuery();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     ret = -1;
                 }

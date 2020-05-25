@@ -19,6 +19,7 @@ namespace GUI
         private LoginSL gestorLogin = new LoginSL();
         private BitacoraSL gestorBitacora = new BitacoraSL();
         private UsuarioBE usuarioAutenticado = new UsuarioBE();
+        private AutorizacionSL gestorAutorizacion = new AutorizacionSL();
 
         public FRM_Login()
         {
@@ -46,12 +47,13 @@ namespace GUI
                 if (usuarioAutenticado != null)
                 {
                     SesionSL.Instance.Login(usuarioAutenticado);
+                    gestorAutorizacion.CargarPermisosAlUsuario(ref usuarioAutenticado);
                     BitacoraBE bitacoraBE = new BitacoraBE();
                     bitacoraBE.Cod_Usuario = usuarioAutenticado.Cod_Usuario;
                     bitacoraBE.Cod_Evento = (short)EventosBE.Eventos.Login;
                     gestorBitacora.Insertar(bitacoraBE, usuarioAutenticado);
 
-                    switch (usuarioAutenticado.Cod_Tipo)
+                    switch (usuarioAutenticado.TipoUsuario.Cod_Tipo)
                     {
                         case 1:
                             //Abrir lo correspondiente al cliente
@@ -67,6 +69,11 @@ namespace GUI
                             //Abrir lo correspondiente al Web Master
                             FRM_WebMaster frmWebMaster = new FRM_WebMaster(usuarioAutenticado);
                             frmWebMaster.ShowDialog();
+                            break;
+                        case 4:
+                            //Abrir lo correspondiente al cliente
+                            FRM_Cliente frmCliente2 = new FRM_Cliente(usuarioAutenticado);
+                            frmCliente2.ShowDialog();
                             break;
                     }
                 }

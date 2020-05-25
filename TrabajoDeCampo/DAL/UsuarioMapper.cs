@@ -18,7 +18,7 @@ namespace DAL
             parametros.Add(AccesoSQL.CrearParametroStr("Nombre", usuario.Nombre));
             parametros.Add(AccesoSQL.CrearParametroStr("Mail", usuario.Mail));
             parametros.Add(AccesoSQL.CrearParametroStr("Contraseña", SimpleEncrypt(usuario.Contraseña)));
-            parametros.Add(AccesoSQL.CrearParametroInt("Cod_Tipo", usuario.Cod_Tipo));
+            parametros.Add(AccesoSQL.CrearParametroInt("Cod_Tipo", usuario.TipoUsuario.Cod_Tipo));
             return AccesoSQL.Escribir("pr_Insertar_Usuario", parametros);
         }
 
@@ -30,7 +30,7 @@ namespace DAL
             parametros.Add(AccesoSQL.CrearParametroStr("Nombre", usuario.Nombre));
             parametros.Add(AccesoSQL.CrearParametroStr("Mail", usuario.Mail));
             parametros.Add(AccesoSQL.CrearParametroStr("Contraseña", SimpleEncrypt(usuario.Contraseña)));
-            parametros.Add(AccesoSQL.CrearParametroInt("Cod_Tipo", usuario.Cod_Tipo));
+            parametros.Add(AccesoSQL.CrearParametroInt("Cod_Tipo", usuario.TipoUsuario.Cod_Tipo));
             return AccesoSQL.Escribir("pr_Actualizar_Usuario", parametros);
         }
 
@@ -55,12 +55,14 @@ namespace DAL
                 {
                     //TODO: Esto es repetitivo!
                     UsuarioBE usuario = new UsuarioBE();
+                    TipoUsuarioBE tipoUsuario = new TipoUsuarioBE();
+                    usuario.TipoUsuario = tipoUsuario;
                     usuario.Cod_Usuario = int.Parse(fila["Cod_Usuario"].ToString());
                     usuario.Nombre = fila["Nombre"].ToString();
                     usuario.Mail = fila["Mail"].ToString();
                     usuario.Contraseña = SimpleDecrypt(fila["Contraseña"].ToString());
-                    usuario.Cod_Tipo = short.Parse(fila["Cod_Tipo"].ToString());
-                    usuario.TipoUsuario = fila["DescripcionTipo"].ToString();
+                    usuario.TipoUsuario.Cod_Tipo = short.Parse(fila["Cod_Tipo"].ToString());
+                    usuario.TipoUsuario.Descripcion_Tipo = fila["DescripcionTipo"].ToString();
 
                     return usuario;
                 }
@@ -80,12 +82,14 @@ namespace DAL
                 {
                     //TODO: Esto es repetitivo!
                     UsuarioBE usuario = new UsuarioBE();
+                    TipoUsuarioBE tipoUsuario = new TipoUsuarioBE();
+                    usuario.TipoUsuario = tipoUsuario;
                     usuario.Cod_Usuario = int.Parse(fila["Cod_Usuario"].ToString());
                     usuario.Nombre = fila["Nombre"].ToString();
                     usuario.Mail = fila["Mail"].ToString();
                     usuario.Contraseña = SimpleDecrypt(fila["Contraseña"].ToString());
-                    usuario.Cod_Tipo = short.Parse(fila["Cod_Tipo"].ToString());
-                    usuario.TipoUsuario = fila["DescripcionTipo"].ToString();
+                    usuario.TipoUsuario.Cod_Tipo = short.Parse(fila["Cod_Tipo"].ToString());
+                    usuario.TipoUsuario.Descripcion_Tipo = fila["DescripcionTipo"].ToString();
 
                     return usuario;
                 }
@@ -105,12 +109,14 @@ namespace DAL
                 {
                     //TODO: Esto es repetitivo!
                     UsuarioBE usuario = new UsuarioBE();
+                    TipoUsuarioBE tipoUsuario = new TipoUsuarioBE();
+                    usuario.TipoUsuario = tipoUsuario;
                     usuario.Cod_Usuario = int.Parse(fila["Cod_Usuario"].ToString());
                     usuario.Nombre = fila["Nombre"].ToString();
                     usuario.Mail = fila["Mail"].ToString();
                     usuario.Contraseña = SimpleDecrypt(fila["Contraseña"].ToString());
-                    usuario.Cod_Tipo = short.Parse(fila["Cod_Tipo"].ToString());
-                    usuario.TipoUsuario = fila["DescripcionTipo"].ToString();
+                    usuario.TipoUsuario.Cod_Tipo = short.Parse(fila["Cod_Tipo"].ToString());
+                    usuario.TipoUsuario.Descripcion_Tipo = fila["DescripcionTipo"].ToString();
 
                     return usuario;
                 }
@@ -128,12 +134,15 @@ namespace DAL
                 foreach (DataRow fila in tabla.Rows)
                 {
                     BE.UsuarioBE usuario = new BE.UsuarioBE();
+                    TipoUsuarioBE tipoUsuario = new TipoUsuarioBE();
+                    usuario.TipoUsuario = tipoUsuario;
                     usuario.Cod_Usuario = int.Parse(fila["Cod_Usuario"].ToString());
                     usuario.Nombre = fila["Nombre"].ToString();
                     usuario.Mail = fila["Mail"].ToString();
                     usuario.Contraseña = SimpleDecrypt(fila["Contraseña"].ToString());
-                    usuario.Cod_Tipo = short.Parse(fila["Cod_Tipo"].ToString());
-                    usuario.TipoUsuario = fila["DescripcionTipo"].ToString();
+                    usuario.TipoUsuario.Cod_Tipo = short.Parse(fila["Cod_Tipo"].ToString());
+                    usuario.TipoUsuario.Descripcion_Tipo = fila["DescripcionTipo"].ToString();
+                    myLista.Add(usuario);
                 }
             }
             return myLista;

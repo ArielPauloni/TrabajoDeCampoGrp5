@@ -60,6 +60,7 @@
             this.btnReservar.TabIndex = 4;
             this.btnReservar.Text = "Reservar";
             this.btnReservar.UseVisualStyleBackColor = true;
+            this.btnReservar.Visible = false;
             // 
             // FRM_Cliente
             // 

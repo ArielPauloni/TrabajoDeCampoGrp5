@@ -69,7 +69,7 @@
             this.txtUsuarioMail.Name = "txtUsuarioMail";
             this.txtUsuarioMail.Size = new System.Drawing.Size(215, 20);
             this.txtUsuarioMail.TabIndex = 3;
-            this.txtUsuarioMail.Text = "clientestand@mail.com";
+            this.txtUsuarioMail.Text = "ariel@mail.com";
             // 
             // txtUsuarioClave
             // 
@@ -78,7 +78,7 @@
             this.txtUsuarioClave.PasswordChar = '*';
             this.txtUsuarioClave.Size = new System.Drawing.Size(215, 20);
             this.txtUsuarioClave.TabIndex = 4;
-            this.txtUsuarioClave.Text = "Cliente123";
+            this.txtUsuarioClave.Text = "Admin123";
             // 
             // FRM_Login
             // 

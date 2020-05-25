@@ -9,12 +9,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using BE;
 using BLL;
+using SL;
 
 namespace GUI
 {
     public partial class FRM_Cliente : Form
     {
         private UsuarioBE usuario = new UsuarioBE();
+        private AutorizacionSL gestorAutorizacion = new AutorizacionSL();
         
         public FRM_Cliente(UsuarioBE usuarioAutenticado)
         {
@@ -27,13 +29,9 @@ namespace GUI
         {
             lblHolaCliente.Text = "Hola " + usuario.ToString();
 
-            if (usuario.TipoUsuario == "Cliente PREMIUM")
+            if (gestorAutorizacion.ValidarPermisoUsuario(new PermisoBE("Reservar"),usuario))
             {
                 btnReservar.Visible = true;
-            }
-            else if (usuario.TipoUsuario == "Cliente STANDARD")
-            {
-                btnReservar.Visible = false;
             }
         }
     }
