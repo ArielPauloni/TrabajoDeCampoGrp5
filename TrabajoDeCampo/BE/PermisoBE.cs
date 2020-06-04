@@ -32,6 +32,13 @@ namespace BE
             set { descripcionPermiso = value; }
         }
 
+        private int? codPermisoPadre;
+        public int? CodPermisoPadre
+        {
+            get { return codPermisoPadre; }
+            set { codPermisoPadre = value; }
+        }
+
         public override string ToString()
         {
             return DescripcionPermiso;

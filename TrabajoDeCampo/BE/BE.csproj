@@ -44,7 +44,6 @@
     <Compile Include="BitacoraBE.cs" />
     <Compile Include="EventosBE.cs" />
     <Compile Include="PermisoBE.cs" />
-    <Compile Include="TipoPermisos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SesionBE.cs" />
     <Compile Include="TipoUsuarioBE.cs" />

@@ -69,7 +69,7 @@ namespace DAL
                 {
                     myAdaptador.Fill(TablaRet);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     TablaRet = null;
                 }
@@ -127,6 +127,15 @@ namespace DAL
             {
                 parametro.Value = DBNull.Value;
             }
+            return parametro;
+        }
+
+        public SqlParameter CrearParametroNull(string nombre)
+        {
+            SqlParameter parametro = new SqlParameter();
+            parametro.ParameterName = nombre;
+            parametro.DbType = DbType.Int16;
+            parametro.Value = DBNull.Value;
             return parametro;
         }
     }

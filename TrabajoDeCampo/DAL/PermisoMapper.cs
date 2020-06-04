@@ -70,7 +70,82 @@ namespace DAL
         public static List<PermisoBE> ListarPermisosPorTipoUsuario(TipoUsuarioBE tipoUsuario)
         {
             List<PermisoBE> listaPermisos = new List<PermisoBE>();
+            AccesoSQL AccesoSQL = new AccesoSQL();
+            List<SqlParameter> parametros = new List<SqlParameter>();
+            parametros.Add(AccesoSQL.CrearParametroInt("TipoUsuario", tipoUsuario.Cod_Tipo));
 
+            DataTable tabla = AccesoSQL.Leer("pr_Listar_PermisosPorTipoUsuario", parametros);
+
+            foreach (DataRow registro in tabla.Rows)
+            {
+                PermisoBE permiso = new PermisoBE();
+                permiso.CodPermiso = int.Parse(registro["Cod_Permiso"].ToString());
+                permiso.DescripcionPermiso = registro["Nombre"].ToString();
+                permiso.CodPermisoPadre = registro["Cod_Permiso_Padre"] == DBNull.Value ? null : (int?)int.Parse(registro["Cod_Permiso_Padre"].ToString());
+
+                listaPermisos.Add(permiso);
+            }
+            return listaPermisos;
+        }
+
+        public int QuitarRelacionPermisos(PermisoBE permisoPadre, PermisoBE permisoHijo)
+        {
+            AccesoSQL AccesoSQL = new AccesoSQL();
+            List<SqlParameter> parametros = new List<SqlParameter>();
+            parametros.Add(AccesoSQL.CrearParametroInt("Cod_Permiso_Padre", permisoPadre.CodPermiso));
+            parametros.Add(AccesoSQL.CrearParametroInt("Cod_Permiso_Hijo", permisoHijo.CodPermiso));
+            return AccesoSQL.Escribir("pr_Eliminar_RelacionPermisos", parametros);
+        }
+
+        public int InsertarPermisoPorTipoUsuario(TipoUsuarioBE tipoUsuario, PermisoBE permiso)
+        {
+            AccesoSQL AccesoSQL = new AccesoSQL();
+            List<SqlParameter> parametros = new List<SqlParameter>();
+            parametros.Add(AccesoSQL.CrearParametroInt("Cod_TipoUsuario", tipoUsuario.Cod_Tipo));
+            parametros.Add(AccesoSQL.CrearParametroInt("Cod_Permiso", permiso.CodPermiso));
+            return AccesoSQL.Escribir("pr_Insertar_PermisoPorTipoUsuario", parametros);
+        }
+
+        public int EliminarPermisoPorTipoUsuario(TipoUsuarioBE tipoUsuario, PermisoBE permiso)
+        {
+            AccesoSQL AccesoSQL = new AccesoSQL();
+            List<SqlParameter> parametros = new List<SqlParameter>();
+            parametros.Add(AccesoSQL.CrearParametroInt("Cod_TipoUsuario", tipoUsuario.Cod_Tipo));
+            parametros.Add(AccesoSQL.CrearParametroInt("Cod_Permiso", permiso.CodPermiso));
+            return AccesoSQL.Escribir("pr_Eliminar_PermisoPorTipoUsuario", parametros);
+        }
+
+        public int RelacionarPermisos(PermisoBE permisoPadre, PermisoBE permisoHijo)
+        {
+            AccesoSQL AccesoSQL = new AccesoSQL();
+            List<SqlParameter> parametros = new List<SqlParameter>();
+            parametros.Add(AccesoSQL.CrearParametroInt("Cod_Permiso_Padre", permisoPadre.CodPermiso));
+            parametros.Add(AccesoSQL.CrearParametroInt("Cod_Permiso_Hijo", permisoHijo.CodPermiso));
+            return AccesoSQL.Escribir("pr_Insertar_RelacionPermisos", parametros);
+        }
+
+        /// <summary>
+        /// Si Cod_Permiso es cero traigo los nodos que NO tienen padres, sino, trae los hijos directos del permiso buscado			
+        /// </summary>
+        /// <param name="permisoPadre"></param>
+        /// <returns></returns>
+        public List<PermisoBE> ListarPermisosPorPadre(PermisoBE permisoPadre)
+        {
+            List<PermisoBE> listaPermisos = new List<PermisoBE>();
+            AccesoSQL AccesoSQL = new AccesoSQL();
+            List<SqlParameter> parametros = new List<SqlParameter>();
+            parametros.Add(AccesoSQL.CrearParametroInt("Cod_Permiso", permisoPadre.CodPermiso));
+
+            DataTable tabla = AccesoSQL.Leer("pr_Listar_PermisosPorPadre", parametros);
+            foreach (DataRow registro in tabla.Rows)
+            {
+                PermisoBE permiso = new PermisoBE();
+                permiso.CodPermiso = int.Parse(registro["Cod_Permiso"].ToString());
+                permiso.DescripcionPermiso = registro["Nombre"].ToString();
+                if (permisoPadre.CodPermiso == 0) { permiso.CodPermisoPadre = null; }
+                else { permiso.CodPermisoPadre = permisoPadre.CodPermiso; }
+                listaPermisos.Add(permiso);
+            }
             return listaPermisos;
         }
     }
