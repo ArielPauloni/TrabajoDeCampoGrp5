@@ -48,10 +48,10 @@ namespace GUI
                 {
                     SesionSL.Instance.Login(usuarioAutenticado);
                     gestorAutorizacion.CargarPermisosAlUsuario(ref usuarioAutenticado);
-                    BitacoraBE bitacoraBE = new BitacoraBE();
-                    bitacoraBE.Cod_Usuario = usuarioAutenticado.Cod_Usuario;
-                    bitacoraBE.Cod_Evento = (short)EventosBE.Eventos.Login;
-                    gestorBitacora.Insertar(bitacoraBE, usuarioAutenticado);
+                    //BitacoraBE bitacoraBE = new BitacoraBE();
+                    //bitacoraBE.Cod_Usuario = usuarioAutenticado.Cod_Usuario;
+                    //bitacoraBE.Cod_Evento = (short)EventosBE.Eventos.Login;
+                    //gestorBitacora.Insertar(bitacoraBE, usuarioAutenticado);
 
                     switch (usuarioAutenticado.TipoUsuario.Cod_Tipo)
                     {

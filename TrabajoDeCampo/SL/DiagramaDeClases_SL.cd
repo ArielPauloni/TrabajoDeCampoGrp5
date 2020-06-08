@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="SL.AutorizacionSL" Collapsed="true">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AutorizacionSL.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SL.BitacoraSL" Collapsed="true">
+    <Position X="7" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAIgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BitacoraSL.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SL.UsuarioModificadoException" Collapsed="true">
+    <Position X="5.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExcepcionesSL.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SL.IdiomaSL" Collapsed="true">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IdiomaSL.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SL.LoginSL" Collapsed="true">
+    <Position X="5.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LoginSL.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SL.PermisoSL" Collapsed="true">
+    <Position X="7" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAKAAAAQAAAACAACAAAAAAAAiAAAACABAAAACAAA=</HashCode>
+      <FileName>PermisoSL.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SL.SesionSL" Collapsed="true">
+    <Position X="8.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAABAAAAAAAAAAAAAAAIAAAAAAAQAQAAQAAAAAAA=</HashCode>
+      <FileName>SesionSL.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SL.PatronComposite.ComponentPermiso">
+    <Position X="1.75" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAQAAAAEAAEAAAAAAAAAAAAQAAAAEAAAAAA=</HashCode>
+      <FileName>PatronComposite\ComponentPermiso.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SL.PatronComposite.CompositePermiso">
+    <Position X="0.5" Y="4.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAQAAAAAAAEEAAAAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>PatronComposite\CompositePermiso.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SL.PatronComposite.HojaPermiso">
+    <Position X="3.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAQAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PatronComposite\HojaPermiso.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

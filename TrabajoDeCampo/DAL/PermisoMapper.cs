@@ -12,15 +12,8 @@ namespace DAL
 {
     public class PermisoMapper
     {
-        public int Insertar(BE.PermisoBE permiso)
-        {
-
-            return 1;
-        }
-
         public List<PermisoBE> ListarPermisos()
         {
-            //estos NO son permisos BE, estos son componentes... porque puede ser nodo u hoja
             List<PermisoBE> listaPermisos = new List<PermisoBE>();
             AccesoSQL AccesoSQL = new AccesoSQL();
             DataTable tabla = AccesoSQL.Leer("pr_Listar_Permisos", null);

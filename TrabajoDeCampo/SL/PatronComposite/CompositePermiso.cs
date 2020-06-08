@@ -13,7 +13,7 @@ namespace SL.PatronComposite
 
         private List<ComponentPermiso> _hijos = new List<ComponentPermiso>();
 
-        public List<ComponentPermiso> Children
+        public List<ComponentPermiso> Hijos
         {
             get { return _hijos; }
             set { _hijos = value; }

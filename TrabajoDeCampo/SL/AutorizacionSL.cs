@@ -21,7 +21,7 @@ namespace SL
             bool retVal = false;
             foreach (PermisoBE per in usuario.Permisos)
             {
-                if (per.DescripcionPermiso == permiso.DescripcionPermiso)
+                if (string.Compare(per.DescripcionPermiso, permiso.DescripcionPermiso,true) == 0)
                 {
                     retVal = true;
                     break;

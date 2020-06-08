@@ -12,6 +12,7 @@ namespace SL
     public class PermisoSL
     {
         private PermisoMapper PermisoMapper = new PermisoMapper();
+        private AutorizacionSL gestorAutorizacion = new AutorizacionSL();
 
         public List<PermisoBE> ListarPermisos()
         {
@@ -19,29 +20,44 @@ namespace SL
             return m.ListarPermisos();
         }
 
-        public int InsertarPermiso(PermisoBE permiso)
+        public int InsertarPermiso(PermisoBE permiso, UsuarioBE usuario)
         {
-            PermisoMapper m = new PermisoMapper();
-            return m.InsertarPermiso(permiso);
+            if (gestorAutorizacion.ValidarPermisoUsuario(new PermisoBE("Crear Permisos"), usuario))
+            {
+                PermisoMapper m = new PermisoMapper();
+                return m.InsertarPermiso(permiso);
+            }
+            else return -1;
         }
 
-        public List<PatronComposite.ComponentPermiso> ListarPermisosArbol()
+        public List<PatronComposite.ComponentPermiso> ListarPermisosArbol(UsuarioBE usuario)
         {
             List<PatronComposite.ComponentPermiso> gruposDePermisos = new List<PatronComposite.ComponentPermiso>();
-            PermisoBE permisoRoot = new PermisoBE();
-            permisoRoot.CodPermiso = 0;
-            List<PermisoBE> PermisosGrupo = PermisoMapper.ListarPermisosPorPadre(permisoRoot);
-
-            foreach (PermisoBE permiso in PermisosGrupo)
+            if (gestorAutorizacion.ValidarPermisoUsuario(new PermisoBE("Gestionar Permisos"), usuario))
             {
-                PatronComposite.CompositePermiso FamiliaPermiso = new PatronComposite.CompositePermiso(permiso);
-                gruposDePermisos.Add(FamiliaPermiso);
-                List<PermisoBE> PermisosHijos = PermisoMapper.ListarPermisosPorPadre(permiso);
-                SubNodoAgregar(FamiliaPermiso, PermisosHijos);
+                PermisoBE permisoRoot = new PermisoBE();
+                permisoRoot.CodPermiso = 0;
+                List<PermisoBE> PermisosGrupo = PermisoMapper.ListarPermisosPorPadre(permisoRoot);
+
+                foreach (PermisoBE permiso in PermisosGrupo)
+                {
+                    PatronComposite.CompositePermiso FamiliaPermiso = new PatronComposite.CompositePermiso(permiso);
+                    gruposDePermisos.Add(FamiliaPermiso);
+                    List<PermisoBE> PermisosHijos = PermisoMapper.ListarPermisosPorPadre(permiso);
+                    SubNodoAgregar(FamiliaPermiso, PermisosHijos);
+                }
+
             }
+            else gruposDePermisos = null;
+
             return gruposDePermisos;
         }
 
+        /// <summary>
+        /// Función recursiva para agregar cada una de las ramas de permisos
+        /// </summary>
+        /// <param name="nodo"></param>
+        /// <param name="hijos"></param>
         private void SubNodoAgregar(PatronComposite.ComponentPermiso nodo, List<PermisoBE> hijos)
         {
             if (hijos.Count > 0)
@@ -65,46 +81,86 @@ namespace SL
             }
         }
 
-        public List<ComponentPermiso> ListarPermisosPorTipoUsuario(TipoUsuarioBE tipoUsuario)
+        public List<ComponentPermiso> ListarPermisosPorTipoUsuario(TipoUsuarioBE tipoUsuario, UsuarioBE usuario)
         {
             List<PatronComposite.ComponentPermiso> gruposDePermisos = new List<PatronComposite.ComponentPermiso>();
-            List<PermisoBE> PermisosGrupo = PermisoMapper.ListarPermisosPorTipoUsuario(tipoUsuario);
-
-            foreach (PermisoBE permiso in PermisosGrupo)
+            if (gestorAutorizacion.ValidarPermisoUsuario(new PermisoBE("Gestionar Permisos"), usuario))
             {
-                if (permiso.CodPermisoPadre == null)
+                List<PermisoBE> PermisosGrupo = PermisoMapper.ListarPermisosPorTipoUsuario(tipoUsuario);
+
+                foreach (PermisoBE permiso in PermisosGrupo)
                 {
-                    PatronComposite.CompositePermiso FamiliaPermiso = new PatronComposite.CompositePermiso(permiso);
-                    gruposDePermisos.Add(FamiliaPermiso);
-                    List<PermisoBE> PermisosHijos = PermisoMapper.ListarPermisosPorPadre(permiso);
-                    SubNodoAgregar(FamiliaPermiso, PermisosHijos);
+                    if (permiso.CodPermisoPadre == null)
+                    {
+                        PatronComposite.CompositePermiso FamiliaPermiso = new PatronComposite.CompositePermiso(permiso);
+                        gruposDePermisos.Add(FamiliaPermiso);
+                        List<PermisoBE> PermisosHijos = PermisoMapper.ListarPermisosPorPadre(permiso);
+                        SubNodoAgregar(FamiliaPermiso, PermisosHijos);
+                    }
                 }
             }
+            else gruposDePermisos = null;
             return gruposDePermisos;
         }
 
-        public int RelacionarPermisos(PermisoBE permisoPadre, PermisoBE permisoHijo)
+        public int RelacionarPermisos(PermisoBE permisoPadre, PermisoBE permisoHijo, UsuarioBE usuario)
         {
-            PermisoMapper m = new PermisoMapper();
-            return m.RelacionarPermisos(permisoPadre, permisoHijo);
+            int retVal = -1;
+            if (gestorAutorizacion.ValidarPermisoUsuario(new PermisoBE("Gestionar Permisos"), usuario))
+            {
+                PermisoMapper m = new PermisoMapper();
+                retVal = m.RelacionarPermisos(permisoPadre, permisoHijo);
+                //Si tuvo permisos para realizar algún tipo de cambio, por las dudas,
+                //debo actualizar la lista de los permisos del usuarioAutenticado, para que se actualicen
+                //qué acciones puede realizar y qué no
+                gestorAutorizacion.CargarPermisosAlUsuario(ref usuario);
+            }
+            return retVal;
         }
 
-        public int QuitarRelacionPermisos(PermisoBE permisoPadre, PermisoBE permisoHijo)
+        public int QuitarRelacionPermisos(PermisoBE permisoPadre, PermisoBE permisoHijo, UsuarioBE usuario)
         {
-            PermisoMapper m = new PermisoMapper();
-            return m.QuitarRelacionPermisos(permisoPadre, permisoHijo);
+            int retVal = -1;
+            if (gestorAutorizacion.ValidarPermisoUsuario(new PermisoBE("Gestionar Permisos"), usuario))
+            {
+                PermisoMapper m = new PermisoMapper();
+                retVal = m.QuitarRelacionPermisos(permisoPadre, permisoHijo);
+                //Si tuvo permisos para realizar algún tipo de cambio, por las dudas,
+                //debo actualizar la lista de los permisos del usuarioAutenticado, para que se actualicen
+                //qué acciones puede realizar y qué no
+                gestorAutorizacion.CargarPermisosAlUsuario(ref usuario);
+            }
+            return retVal;
         }
 
-        public int InsertarPermisoPorTipoUsuario(TipoUsuarioBE tipoUsuario, PermisoBE permiso)
+        public int InsertarPermisoPorTipoUsuario(TipoUsuarioBE tipoUsuario, PermisoBE permiso, UsuarioBE usuario)
         {
-            PermisoMapper m = new PermisoMapper();
-            return m.InsertarPermisoPorTipoUsuario(tipoUsuario, permiso);
+            int retVal = -1;
+            if (gestorAutorizacion.ValidarPermisoUsuario(new PermisoBE("Asignar Permisos"), usuario))
+            {
+                PermisoMapper m = new PermisoMapper();
+                retVal = m.InsertarPermisoPorTipoUsuario(tipoUsuario, permiso);
+                //Si tuvo permisos para realizar algún tipo de cambio, por las dudas,
+                //debo actualizar la lista de los permisos del usuarioAutenticado, para que se actualicen
+                //qué acciones puede realizar y qué no
+                gestorAutorizacion.CargarPermisosAlUsuario(ref usuario);
+            }
+            return retVal;
         }
 
-        public int EliminarPermisoPorTipoUsuario(TipoUsuarioBE tipoUsuario, PermisoBE permiso)
+        public int EliminarPermisoPorTipoUsuario(TipoUsuarioBE tipoUsuario, PermisoBE permiso, UsuarioBE usuario)
         {
-            PermisoMapper m = new PermisoMapper();
-            return m.EliminarPermisoPorTipoUsuario(tipoUsuario, permiso);
+            int retVal = -1;
+            if (gestorAutorizacion.ValidarPermisoUsuario(new PermisoBE("Quitar permisos"), usuario))
+            {
+                PermisoMapper m = new PermisoMapper();
+                retVal = m.EliminarPermisoPorTipoUsuario(tipoUsuario, permiso);
+                //Si tuvo permisos para realizar algún tipo de cambio, por las dudas,
+                //debo actualizar la lista de los permisos del usuarioAutenticado, para que se actualicen
+                //qué acciones puede realizar y qué no
+                gestorAutorizacion.CargarPermisosAlUsuario(ref usuario);
+            }
+            return retVal;
         }
     }
 }
